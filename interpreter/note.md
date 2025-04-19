@@ -11,3 +11,5 @@
   An interpreter’s primary task is execution. It takes as input a source program and directly executes that program without producing any target program. The OS loads and executes the interpreter, and the interpreter is then responsible for executing the program. Typically, an interpreter is easier to implement than a compiler.
   
   It’s also possible to implement a language using a mixture of compilation and interpretation. The most common example of that involves virtual machines that execute bytecode, such as the Java Virtual Machine (JVM) or the OCaml virtual machine (which used to be called the Zinc Machine). With this strategy, a compiler translates the source language into bytecode, and the virtual machine interprets the bytecode.
+
+![image](https://github.com/user-attachments/assets/a227a5e5-716c-43c1-9701-f46c70ca365c)

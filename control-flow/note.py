@@ -71,5 +71,40 @@ def matchStatement():
         case Color.BLUE:
             print("I'm feeling the blues :(")
 
+"""
+3. `return` statement
+    3.1 In a function, there are 2 subcases:
+        3.1.2 None: without an expression argument
+        3.1.2 A value from function
+"""
+def fib(n):    # write Fibonacci series less than n
+    """Print a Fibonacci series less than n."""
+    a, b = 0, 1
+    while a < n:
+        print(a, end=' ')
+        a, b = b, a+b
+    print()
+
+def fib2(n):  # return Fibonacci series up to n
+    """Return a list containing the Fibonacci series up to n."""
+    result = []
+    a, b = 0, 1
+    while a < n:
+        result.append(a)    # see below
+        a, b = b, a+b
+    return result
+
+
+def returnStatement():
+    # Now call the function we just defined:
+    fib(2000)
+
+    # 3.1.1
+    f = fib
+    f(100)
+
+    # 3.1.2
+    f100 = fib2(100)    # call it
+    f100                # write the result
 
     

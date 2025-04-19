@@ -1,4 +1,4 @@
-1. What is an interpreter?
+### What is an interpreter?
 
   A skilled artisan must understand the tools with which they work. A carpenter needs to understand saws and planes. A chef needs to understand knives and pots. A programmer, among other tools, needs to understand the compilers that implement the programming languages they use.
   

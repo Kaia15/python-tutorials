@@ -8,7 +8,7 @@ a = [1.0, 2.0, 3.0] # a is an array defined as global variable
 ```
 
 #### Diagram
-
+  ```
   Globals:
   | a  --------------------->|------\
 
@@ -29,6 +29,7 @@ a = [1.0, 2.0, 3.0] # a is an array defined as global variable
       |      |      |
       V      V      V
     Heap  Heap   Heap
+  ```
 
 #### Analysis
 - Each element of **Python List** is a separate **Object** and points to reference address (in *Stack*) pointing to memory blocks allocated in *Heap*.
@@ -43,6 +44,7 @@ arr = np.array([1.0, 2.0, 3.0])
 ```
 #### Diagram
 
+  ```
   Globals:
 
   |-----------------|
@@ -62,7 +64,7 @@ arr = np.array([1.0, 2.0, 3.0])
   
   |      Raw Data Buffer        |     |
   | 1.0 | 2.0 | 3.0             |<----/
-
+  ```
 
 #### Analysis
 - Since **Numpy** is designed to leverage *C-level* performance and follow *SIMD instruction*, its array is **raw buffer of fixed sized**. 

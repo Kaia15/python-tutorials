@@ -17,22 +17,23 @@ a = [1.0, 2.0, 3.0] # a is an array defined as global variable
   | List object (a)                    |  <- Python list object
   | - size: 3                          |
   | - capacity: 4 or more              |
-  | - pointer array ----------------->|------\
+  | - pointer array (ob_item) ------->|------\
   |                                   |       \
 
-  | Pointers:                   |     |        |
+  | ob_item[]:                  |     |        |
   |  [ptr1, ptr2, ptr3, ...]    |     |        |
 
       |      |      |                 |        |
       V      V      V                 |        |
-    1.0    2.0    3.0   (Python float objects) <-
+    1.0    2.0    3.0  (Python float objects) <-
       |      |      |
       V      V      V
     Heap  Heap   Heap
   ```
 
 #### Analysis
-- Each element of **Python List** is a separate **Object** and points to reference address (in *Stack*) pointing to memory blocks allocated in *Heap*.
+- Each element of **Python List** is a separate **Python Object** allocated in *Heap*. 
+- The list stores an array of pointers to these objects, and this array is also on the *Heap*. Those Python Objects (or element in the list)' memory locations are **not neccessarily continuous**. (in the context above, the type of *PyObject* is *float*).
 - This matches *Design Philosophy* in Python, which prefers *Flexibility* over *Speed*.
 
 ### Memory Allocation for Numpy Array (Python Library)

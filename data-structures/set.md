@@ -71,3 +71,8 @@ s.add(8)
     ```
     6 in s # True, O(1) average b.c look up in hash table
     ```
+
+#### `sorted(set(["apple", "orange", "apple", "banana"]))` means we can Sort a Set?
+- The answer is **No**, `sorted()` and `.sort()` are totally different:
+    - `.sort()` seems to be a private method in class *List*.
+    - `sorted()` looks like **global (built-in) function**, very much like a `static` void in Java.

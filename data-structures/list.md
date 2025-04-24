@@ -99,3 +99,10 @@ arr = np.array([1.0, 2.0, 3.0])
         - Return a new array with desired shape.
 
 - Because of its different way to allocate memory, the application of **Numpy Array** is *vectorization*, where we can map each element in the array buffer to apply a function *f* and return *f(x_i)* in *1-D Numpy Array* at once.
+
+#### `.index()` function
+- *Big O(n)* is the overall runtime for linear search of list.
+
+#### Some props
+- Allows *duplicates, different data types* in each list.
+- Its application: *stack & queue*.

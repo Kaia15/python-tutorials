@@ -40,5 +40,8 @@ print (type(x)) # Output: <class 'int'>
 
 #### (Optional) How Python avoids to creating wasted objects?
 
+#### Does **Numpy (a Python library)** treat `int` as the same way as **Python**?
+- The answer is **No**. *Numpy stores the raw binary values in a contiguous C-style data buffer*.
+- In general, `int32`, `int64`, etc, in *Numpy* are fixed size (fixed memory blocks, unlike Python, which can require more memory for larger numbers).
 
 

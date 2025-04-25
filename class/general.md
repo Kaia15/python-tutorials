@@ -176,3 +176,6 @@
     scope_test()
     print("In global scope:", spam)
     ```
+#### Extra sources
+- https://stackoverflow.com/questions/17134653/difference-between-class-and-instance-methods
+- https://medium.com/@ryan_forrester_/class-methods-vs-static-methods-in-python-a-clear-guide-47fcfd385e27

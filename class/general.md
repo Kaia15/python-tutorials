@@ -62,7 +62,7 @@
     print (ClassicSpam.__mro__)
     print (NewSpam.__mro__)
     print (Spam.__mro__)
-```
+    ```
 - In all three ways to declare/define a new class (including classic style and new ones) in **Python 3+**, they all inherit from <class 'object'>.
 - The answer is **Yes**.
 

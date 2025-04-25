@@ -121,8 +121,11 @@
             for item in zip(keys, values):
                 self.items_list.append(item)
 
+        __update = update
+
     print (newMapping._Mapping__update)
-    print (newMappingSubclass._Mapping__update)
+    print (newMappingSubclass._Mapping__update) # Inherit Mapping.update
+    print (newMappingSubclass._MappingSubclass__update)
     # Output
     # <bound method Mapping.update of <__main__.Mapping object at 0x000002D241F37350>>
     # <bound method Mapping.update of <__main__.MappingSubclass object at 0x000002D241F373D0>>
@@ -146,6 +149,7 @@
     # Fail, since `__update` is defined as a private method in <class Mapping>
     ```
 - The answer is **No**, we still can access by calling `_className__nameOfPrivateMethod`
+- **Safe encapsulation - mangling**: by defining `__update = update`, this makes `self.__update` become `self._Mapping__update`. Therefore, even if `update()` is overriden in a subclass, the parent class has no impact.
 
 #### Scopes
     ```

@@ -44,7 +44,7 @@
                                     -----------------------
     ```
 
-#### Class variable (Non-static) vs. Instance variable (Static)
+#### Class variable (Static) vs. Instance variable (Non-static)
 
 #### Class method vs. Instance method
 

@@ -101,6 +101,8 @@
 - More refs: https://docs.python.org/3/reference/datamodel.html#object.__new__
 
 #### Are Private methods truly **Private**?
+- The answer is **No**, we still can access by calling `_className__nameOfPrivateMethod`
+- **Safe encapsulation - mangling**: by defining `__update = update`, this makes `self.__update` become `self._Mapping__update`. Therefore, even if `update()` is overriden in a subclass, the parent class has no impact.
     ```
     class Mapping:
         def __init__(self, iterable):
@@ -148,8 +150,6 @@
     print (newMapping.__update)
     # Fail, since `__update` is defined as a private method in <class Mapping>
     ```
-- The answer is **No**, we still can access by calling `_className__nameOfPrivateMethod`
-- **Safe encapsulation - mangling**: by defining `__update = update`, this makes `self.__update` become `self._Mapping__update`. Therefore, even if `update()` is overriden in a subclass, the parent class has no impact.
 
 #### Scopes
     ```

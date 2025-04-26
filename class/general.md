@@ -45,9 +45,55 @@
     ```
 
 #### Class variable (Static) vs. Instance variable (Non-static)
+- **Class variable**:
+    ```
+    class Dog:
+
+        tricks = []             # mistaken use of a class variable
+
+        def __init__(self, name):
+            self.name = name
+
+        def add_trick(self, trick):
+            self.tricks.append(trick)
+
+    >>> d = Dog('Fido')
+    >>> e = Dog('Buddy')
+    >>> d.add_trick('roll over')
+    >>> e.add_trick('play dead')
+    >>> d.tricks                # unexpectedly shared by all dogs
+    ['roll over', 'play dead']
+    ```
+- **Instance Variable**
+    ```
+    class Dog:
+
+        def __init__(self, name):
+            self.name = name
+            self.tricks = []    # creates a new empty list for each dog
+
+        def add_trick(self, trick):
+            self.tricks.append(trick)
+
+    >>> d = Dog('Fido')
+    >>> e = Dog('Buddy')
+    >>> d.add_trick('roll over')
+    >>> e.add_trick('play dead')
+    >>> d.tricks
+    ['roll over']
+    >>> e.tricks
+    ['play dead']
+    ```
 
 #### Method Objects
 - From Python's documentation, methods work as follows. When a **non-data attribute of an instance** is *referenced*, the *instance’s class is searched*. If the name denotes a valid class attribute that is a function object, references to **both the instance object and the function object** are packed into *a method object*. When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
+- Code 
+    ```
+    x.f()
+    xf = x.f
+    while True:
+        print(xf()) # x.f() ~= MyClass.f(x)
+    ```
 
 #### Class method (@classmethod) and Static method (@staticmethod)
 - There are differences among `foo`, `class_foo`, and `static_foo`:

@@ -44,9 +44,61 @@
                                     -----------------------
     ```
 
-#### Class variable (Non-static) vs. Instance variable (Static)
+#### Class variable (Static) vs. Instance variable (Non-static)
 
-#### Class method vs. Instance method
+#### Method Objects
+- From Python's documentation, methods work as follows. When a **non-data attribute of an instance** is *referenced*, the *instance’s class is searched*. If the name denotes a valid class attribute that is a function object, references to **both the instance object and the function object** are packed into *a method object*. When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
+
+#### Class method (@classmethod) and Static method (@staticmethod)
+- There are differences among `foo`, `class_foo`, and `static_foo`:
+    ```
+    class A(object):
+        def foo(self, x):
+            print (f"executing foo({self}, {x})")
+
+        @classmethod
+        def class_foo(cls, x):
+            print (f"executing class_foo({cls}, {x})")
+        
+        @staticmethod
+        def static_foo(x):
+            print (f"executing static_foo({x})")
+
+    a = A()
+    ```
+- Group `a.foo(1)` & `a.class_foo(1)` & `A.class_foo(1)`: the class of object instance or the class itself is implicitly passed as **1st arg (`cls`) if passing class else (`self`)**.
+    ```
+    a.foo(1)
+    a.class_foo(1)
+    A.class_foo(1)
+    # Output
+    # executing foo(<__main__.A object at 0xb7dbef0c>, 1)
+    # executing class_foo(<class '__main__.A'>, 1)
+    # executing class_foo(<class '__main__.A'>, 1)
+    ```
+
+- Group `a.foo` & `a.foo(1)` (**No arg(s) passed**):
+    ```
+    a.foo
+    a.foo(1)
+    # Same output
+    ```
+
+- Group `a.class_foo` & `A.class_foo` (**No arg(s) passed**):
+    ```
+    a.class_foo
+    A.class_foo
+    # Same output: <bound method A.class_foo of <class '__main__.A'>>
+    ```
+
+- Group `a.static_foo(1)` & `A.static_foo("hi")`: neither `self` nor `cls` is implicitly passed as *1st arg*. They behave like **plain function** except that you can tell them from an instance or the class
+    ```
+    a.static_foo(1)
+    # executing static_foo(1)
+
+    A.static_foo('hi')
+    # executing static_foo(hi)
+    ```
 
 #### Do all custom-defined classes inherit from <class 'object'> (superclass)?
     ```
@@ -151,6 +203,77 @@
     # Fail, since `__update` is defined as a private method in <class Mapping>
     ```
 
+#### Dataclasses (@dataclass)
+##### Constructor & Object Display
+- Instead of using `__init__`, adding `@dataclass` can auto-fill an object with data. The following codes are equivalent
+    ```
+    class Person1:
+        def __init__(self, name="", age=0, job=""):
+            self.name = name
+            self.age = age
+            self.job = job
+
+    person1 = Person1("Kai", 25, "Python Dev")
+
+    @dataclass
+    class Person2:
+        name: str = ""
+        age: int = 0
+        job: str = ""
+    person2 = Person2("Kai", 25, "Python Dev")
+    # Person2(name='Kai', age=25, job='Python Dev')
+    ```
+- Since `@dataclass` overrides `__repr__`, it hides the **id** of an object, instead, it displays the whole object with attributes and props.
+
+##### Object Comparing
+- Resource: https://www.geeksforgeeks.org/data-classes-in-python-set-5-post-init/
+- `__post_init__`: when certain attributes are dependent on the parameters passed in the `__init__()` but do not get their values directly from them. That is, they get their values after performing some operation on a subset of arguments received in the constructor.
+    ```
+    from dataclasses import dataclass, field 
+    name = {'vibhu4agarwal': 'Vibhu Agarwal'} 
+
+    @dataclass
+    class GfgArticle: 
+
+        title : str
+        language: str
+        author: str
+        author_name: str = field(init = False) 
+        upvotes: int = 0
+
+        def __post_init__(self): 
+            self.author_name = name[self.author] 
+
+
+    dClassObj = GfgArticle("DataClass", "Python3", "vibhu4agarwal") 
+    print(dClassObj) 
+    # GfgArticle(title=’DataClass’, language=’Python3′, author=’vibhu4agarwal’, author_name=’Vibhu Agarwal’, upvotes=0)
+    ```
+    - `author_name` is dependent on profile handle which author attribute receives, so using `__post_init__()` should be used in this case.
+- In this context, 
+    ```
+    @dataclass(order=True)
+    class Person2:
+        sort_index: int = field(init=False, repr=False)
+        name: str = ""
+        age: int = 0
+        job: str = ""
+        def __post_init__(self):
+            self.sort_index = self.age
+    person2 = Person2("Kai", 25, "Python Dev")
+    person3 = Person2("Cai", 20, "Java Dev")
+    print (person2 > person3)
+    ```
+
+#### Type Annotations
+- Resource: https://stackoverflow.com/questions/43233535/explicitly-define-datatype-in-python-function
+- One example of type annotation usage is **Fast API** framework.
+- Code sample:
+    ```
+    def add(x: float, y: float) -> float:
+        return x+y
+    ```
+
 #### Scopes
     ```
     def scope_test():
@@ -175,6 +298,12 @@
 
     scope_test()
     print("In global scope:", spam)
+
+    # Output:
+    # After local assignment: test spam
+    # After nonlocal assignment: nonlocal spam
+    # After global assignment: nonlocal spam
+    # In global scope: global spam
     ```
 #### Extra sources
 - https://stackoverflow.com/questions/17134653/difference-between-class-and-instance-methods

@@ -1,3 +1,5 @@
+from dataclasses import dataclass, field
+
 class Cat:
     species = "Feline"
     def meow(self):
@@ -92,3 +94,40 @@ print (newMappingSubclass.items_list)
 
 print (newMapping.update)
 print (newMappingSubclass.update)
+
+class A(object):
+    def foo(self, x):
+        print (f"executing foo({self}, {x})")
+
+    @classmethod
+    def class_foo(cls, x):
+        print (f"executing class_foo({cls}, {x})")
+    
+    @staticmethod
+    def static_foo(x):
+        print (f"executing static_foo({x})")
+
+a = A()
+print (a.class_foo)
+print (A.class_foo)
+
+class Person1:
+    def __init__(self, name="", age=0, job=""):
+        self.name = name
+        self.age = age
+        self.job = job
+
+person1 = Person1("Kai", 25, "Python Dev")
+
+@dataclass(order=True)
+class Person2:
+    sort_index: int = field(init=False, repr=False)
+    name: str = ""
+    age: int = 0
+    job: str = ""
+    def __post_init__(self):
+        self.sort_index = self.age
+person2 = Person2("Kai", 25, "Python Dev")
+person3 = Person2("Cai", 20, "Java Dev")
+print (person2 > person3)
+

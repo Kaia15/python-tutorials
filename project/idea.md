@@ -4,3 +4,4 @@ Sources:
 3. https://medium.com/@datajournal/speed-up-web-scraping-with-concurrency-in-python-ce25839f9399
 4. https://stackoverflow.com/questions/46056513/web-scraping-with-python-in-combination-with-asyncio
 5. https://github.com/testdrivenio/concurrent-web-scraping/blob/master/script_asyncio.py
+6. https://github.com/poe-platform/fastapi_poe/blob/main/src/fastapi_poe

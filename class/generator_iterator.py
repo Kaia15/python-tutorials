@@ -1,0 +1,1 @@
+print (list.__mro__)

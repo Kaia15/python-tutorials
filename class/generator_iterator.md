@@ -1,4 +1,4 @@
-#### Iterable
+### Iterable
 - An object capable of returning its members one at a time. 
 - Examples of **iterables** include **sequence** types: `list`, `str`, `tuple`
 #### Diagram

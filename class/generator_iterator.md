@@ -97,3 +97,36 @@
     ```
 
 ### `itertools`
+
+#### `itertools.accumulate` & `accumulate(iterable,function,initial)`
+
+- `itertools.accumulate()`
+    ```
+    import itertools
+    import operator
+
+    li1 = [1,2,3,4,5]
+    print (list(itertools.accumulate(li1)))
+    ```
+
+- `accumulate(iterable,function={},initial={})` by normal generator
+    ```
+    import operator 
+
+    def accumulate(iterable, function = operator.add,*, initial=None):
+        iterator = iter(iterable)
+        total = initial
+        if initial is None:
+            try:
+                total = next(iterator)
+            except StopIteration:
+                return 
+        
+        yield total 
+        for element in iterator:
+            total = function(total, element)
+            yield total
+
+    ```
+    
+- Both are **equivalent**.

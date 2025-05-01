@@ -1,17 +1,21 @@
 ### Concurrency in Python
 
 #### Core (Processor)
-- Definition: The actual hardware unit inside a CPU that executes the instructions. There are multiple cores in modern CPU(s).
-- Each core can run one thread at a time (however, with hyper-threading technique, which makes a single core appear as 2 logical cores, there migth be 2 threads running on the same core at a time).
+- Definition: The actual hardware unit inside a CPU that executes the instructions. There are multiple cores in modern CPUs(s).
+Each core can run one thread at a time (however, with the hyper-threading technique, which makes a single core appear as two logical cores, there might be two threads running on the same core at a time).
 
 #### Thread
 - Definition: the smallest unit of execution within a process. 
 - Property: 
-    - Multiple threads from one process share memory and resources but they have their own instruction pointers, stacks & registers.
-    - One example of multi-threading process: **Microsoft Word**
-        - Thread 1: format the text.
+    Multiple threads from one process share memory and resources, but they have their own instruction pointers, stacks, and registers.
+    - One example of a multi-threading process: **Microsoft Word**
+        - Thread 1: Format the text.
         - Thread 2: process the inputs.
-        - Thread 3: control user's clicking, typing, scrolling.
+        - Thread 3: control users' clicking, typing, and scrolling.
+          
+      ![image](https://github.com/user-attachments/assets/f49e769d-d8e6-4287-8fc1-17a44255d165)
+      ![image](https://github.com/user-attachments/assets/997345de-11b3-40c6-ab27-151aad4407b4)
+
         
 ##### Threading Library
 ##### AsyncIO

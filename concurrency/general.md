@@ -84,7 +84,37 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 
 #### Multi-threading vs Multi-processing
-- Multi-processes in separate cores: [![Watch the video]https://github.com/user-attachments/assets/829b7350-89cc-49a6-90d6-2454b8acd2ca
+- Multi-processes in separate cores: 
+    
+
+    ```
+    import multiprocessing
+    import os
+    import time
+    from tqdm import tqdm
+    from multiprocessing import Manager
+
+    def worker(core_id, position):
+        # Set CPU affinity (Unix only)
+        try:
+            os.sched_setaffinity(0, {core_id})
+        except AttributeError:
+            pass  # Not available on Windows
+
+        total = 100
+        with tqdm(total=total, position=position, desc=f"Core {core_id}", leave=True) as pbar:
+            for _ in range(total):
+                time.sleep(0.05)  # Simulate work
+                pbar.update(1)
+
+    if __name__ == '__main__':
+        multiprocessing.set_start_method('fork')  # Required on macOS/Linux
+        processes = []
+        for i in range(4):
+            p = multiprocessing.Process(target=worker, args=(i, i))
+            processes.append(p)
+            p.start()
+    ```
 - 
 ##### Can a thread (from process A) and whole process B run on the same core (processor)?
 ##### Which threads often require GIL, and which ones do not?

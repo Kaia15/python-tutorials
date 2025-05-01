@@ -7,7 +7,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 #### Thread
 - Definition: the smallest unit of execution within a process. 
 - Property: 
-    Multiple threads from one process share memory and resources, but they have their own instruction pointers, stacks, and registers.
+    Multiple threads from one process share memory and resources but have their own instruction pointers, stacks, and registers.
     - One example of a multi-threading process: **Microsoft Word**
         - Thread 1: Format the text.
         - Thread 2: process the inputs.
@@ -85,7 +85,6 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 #### Multi-threading vs Multi-processing
 - Multi-processes in separate cores: 
-    https://youtu.be/ljLEHY2YU1Y
 
     ```
     import multiprocessing

@@ -76,22 +76,66 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 - Ref: https://medium.com/pythoneers/visualize-your-multiprocessing-calculations-in-python-with-parallelbar-5395651f35aa
 - By using `Pool`, we can *spawn* a new process created by `multiprocessing` library in Python.
   ```
-  from tqdm import notebook
-  import time
-  def foo2(id):
-      total = 100
-      print(' ', end='', flush=True)
-      for _ in notebook.tqdm(range(0, total, 5)):
-          time.sleep(0.1)
-  %%time
-  pool = Pool(4)
-  #pool.map(foo2, range(5)) # this also works fine with the new hack
-  for i in range(4):
-      pool.apply_async(foo2, args=(i,))
-      pool.close()
-      pool.join()
+    from multiprocessing import Process, Queue
+    from tqdm.notebook import tqdm
+    import time
+    import os
+    import queue
+    
+    NUM_WORKERS = 4
+    TOTAL_STEPS_PER_WORKER = 20
+    
+    def worker(worker_index, progress_queue):
+        pid = os.getpid()
+        for _ in range(TOTAL_STEPS_PER_WORKER):
+            time.sleep(0.1)  # Simulate work
+            progress_queue.put((worker_index, pid, 1))
+        progress_queue.put((worker_index, pid, 'done'))
+    
+    def display_progress(progress_queue, num_workers, total_steps):
+        pbar_dict = {}
+        pid_map = {}
+    
+        done_flags = [False] * num_workers
+        while not all(done_flags):
+            try:
+                worker_index, pid, msg = progress_queue.get(timeout=0.5)
+                if worker_index not in pbar_dict:
+                    # First message from this worker — create its bar
+                    pid_map[worker_index] = pid
+                    pbar_dict[worker_index] = tqdm(
+                        total=total_steps,
+                        desc=f"Worker {worker_index} (PID {pid})",
+                        position=worker_index
+                    )
+    
+                if msg == 'done':
+                    done_flags[worker_index] = True
+                else:
+                    pbar_dict[worker_index].update(msg)
+    
+            except queue.Empty:
+                continue
+    
+    if __name__ == '__main__':
+        progress_queue = Queue()
+    
+        # Start workers
+        workers = []
+        for i in range(NUM_WORKERS):
+            p = Process(target=worker, args=(i, progress_queue))
+            p.start()
+            workers.append(p)
+    
+        # Main process tracks and shows progress
+        display_progress(progress_queue, NUM_WORKERS, TOTAL_STEPS_PER_WORKER)
+    
+        for p in workers:
+            p.join()
+
   ```
-  ![image](https://github.com/user-attachments/assets/c5da9601-8d0e-44bc-82a7-a62d1b167cf9)
+  ![progress-bar-per-process](https://github.com/user-attachments/assets/ee50305a-8924-4fac-9206-77c12d9ec58a)
+
 
 ##### Threads vs Processes
 

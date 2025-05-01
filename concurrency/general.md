@@ -55,7 +55,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
     # Task 2 assigned to thread: t2
     # The number of alive threads is 3
     # ID of process running task 2: 10392
-    
+
     ```
 
 - **Daemon** Thread:
@@ -68,6 +68,9 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 ##### AsyncIO
 
 #### Process
+##### Visualize multi-processes
+- Ref: https://medium.com/pythoneers/visualize-your-multiprocessing-calculations-in-python-with-parallelbar-5395651f35aa
+- 
 ##### Threads vs Processes
 
 

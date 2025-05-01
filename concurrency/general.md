@@ -64,7 +64,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
     ```
     ```
     - Different cores:
-      https://github.com/user-attachments/assets/829b7350-89cc-49a6-90d6-2454b8acd2ca
+      
 
 
       
@@ -84,6 +84,8 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 
 #### Multi-threading vs Multi-processing
+- Multi-processes in separate cores: https://github.com/user-attachments/assets/829b7350-89cc-49a6-90d6-2454b8acd2ca
+- 
 ##### Can a thread (from process A) and whole process B run on the same core (processor)?
 ##### Which threads often require GIL, and which ones do not?
 

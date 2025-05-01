@@ -85,7 +85,8 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 #### Multi-threading vs Multi-processing
 - Multi-processes in separate cores: 
-
+    https://github.com/user-attachments/assets/63ed1f2b-1514-45b1-8e4e-49c56ff9ccbc
+    
     ```
     import multiprocessing
     import os

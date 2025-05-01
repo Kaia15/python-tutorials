@@ -14,8 +14,6 @@ Each core can run one thread at a time (however, with the hyper-threading techni
         - Thread 3: control users' clicking, typing, and scrolling.
           
       ![image](https://github.com/user-attachments/assets/f49e769d-d8e6-4287-8fc1-17a44255d165)
-      ![image](https://github.com/user-attachments/assets/997345de-11b3-40c6-ab27-151aad4407b4)
-
         
 ##### Threading Library
 ##### AsyncIO

@@ -63,7 +63,11 @@ Each core can run one thread at a time (however, with the hyper-threading techni
     - Code:
     ```
     ```
+    - Different cores:
+      https://github.com/user-attachments/assets/829b7350-89cc-49a6-90d6-2454b8acd2ca
 
+
+      
 ##### Threading Library
 ##### AsyncIO
 

@@ -74,7 +74,25 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 #### Process
 ##### Visualize multi-processes
 - Ref: https://medium.com/pythoneers/visualize-your-multiprocessing-calculations-in-python-with-parallelbar-5395651f35aa
-- 
+- By using `Pool`, we can *spawn* a new process created by `multiprocessing` library in Python.
+  ```
+  from tqdm import notebook
+  import time
+  def foo2(id):
+      total = 100
+      print(' ', end='', flush=True)
+      for _ in notebook.tqdm(range(0, total, 5)):
+          time.sleep(0.1)
+  %%time
+  pool = Pool(4)
+  #pool.map(foo2, range(5)) # this also works fine with the new hack
+  for i in range(4):
+      pool.apply_async(foo2, args=(i,))
+      pool.close()
+      pool.join()
+  ```
+  ![image](https://github.com/user-attachments/assets/c5da9601-8d0e-44bc-82a7-a62d1b167cf9)
+
 ##### Threads vs Processes
 
 

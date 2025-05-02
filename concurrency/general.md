@@ -136,9 +136,12 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 
 #### GIL (Global Interpreter Lock)
+- Threads are generally 'lighter' than processes, and can be created, destroyed, and switched between faster than processes. They are normally preferred for taking advantage of multicore systems. However, multithreading with Python has a key limitation: the Global Interpreter Lock (GIL). For various reasons (a quick web search will turn up copious discussion, not to say argument, over why this exists and whether it's a good idea), **Python is implemented in such a way that only one thread can be accessing the interpreter at a time. This means only one thread can be running Python code at a time**. This almost means that you don't take any advantage of parallel processing at all. The exceptions are few but important: **while a thread is waiting for IO (for you to type something, say, or for something to come in the network), Python releases the GIL so other threads can run**.
+  
 ##### What is GIL
+- **Global Interpreter Lock** ensures that **only one thread executes Python bytecode at a time**
 ##### GIL's role in blocking threads
-
+- Because of its property, we prefer to use `threading` for I/O tasks, and Python will release GIL for those tasks to implement parallelism (context switch). For CPU-bound tasks, we should not use `threading` (multithreading) due to the limitation of GIL. Instead, we will use `multiprocessing` (explained later on) to allow each process to have its own GIL and not be blocked by others.
 
 #### Multi-threading vs Multi-processing
 - Multi-processes in separate cores: 

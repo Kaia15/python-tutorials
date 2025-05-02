@@ -142,6 +142,31 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 - **Global Interpreter Lock** ensures that **only one thread executes Python bytecode at a time**
 ##### GIL's role in blocking threads
 - Because of its property, we prefer to use `threading` for I/O tasks, and Python will release GIL for those tasks to implement parallelism (context switch). For CPU-bound tasks, we should not use `threading` (multithreading) due to the limitation of GIL. Instead, we will use `multiprocessing` (explained later on) to allow each process to have its own GIL and not be blocked by others.
+- Multi-threads release GIL (not require execute Python bytecode - I/O task)
+    ```
+    import threading
+    import time
+
+    def io_bound():
+        print(f"[{threading.current_thread().name}] Starting I/O task")
+        time.sleep(2)
+        print(f"[{threading.current_thread().name}] Done")
+
+    start = time.time()
+
+    threads = [threading.Thread(target=io_bound) for _ in range(2)]
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+
+    print("I/O-bound total time:", round(time.time() - start, 2), "seconds")
+    # [Thread-1 (io_bound)] Starting I/O task
+    # [Thread-2 (io_bound)] Starting I/O task
+    # [Thread-1 (io_bound)] Done
+    # [Thread-2 (io_bound)] Done
+    # I/O-bound total time: 2.0 seconds
+    ```
+    - Total time is 2 seconds (GIL does not block any thread), not 4 seconds.
+
 - Ref: https://scipy-cookbook.readthedocs.io/items/ParallelProgramming.html
 
 #### Multi-threading vs Multi-processing

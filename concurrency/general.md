@@ -142,6 +142,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 - **Global Interpreter Lock** ensures that **only one thread executes Python bytecode at a time**
 ##### GIL's role in blocking threads
 - Because of its property, we prefer to use `threading` for I/O tasks, and Python will release GIL for those tasks to implement parallelism (context switch). For CPU-bound tasks, we should not use `threading` (multithreading) due to the limitation of GIL. Instead, we will use `multiprocessing` (explained later on) to allow each process to have its own GIL and not be blocked by others.
+- Ref: https://scipy-cookbook.readthedocs.io/items/ParallelProgramming.html
 
 #### Multi-threading vs Multi-processing
 - Multi-processes in separate cores: 

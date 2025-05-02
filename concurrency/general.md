@@ -60,7 +60,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 
 - **Daemon** Thread:
 - **Same core** or **Different Cores**?
-  - We can bind a process to a CPU core, but we cannot bind a thread to a specific CPU core. Therefore, a thread is executed by which CPU core, depending on O.S scheduling. 
+  - We can bind a process to a CPU core, but we **cannot bind a thread to a specific CPU core**. Therefore, a thread is executed by which CPU core, depending on O.S scheduling. 
   - Ref: https://stackoverflow.com/questions/41401490/how-to-limit-number-of-cores-with-threading
       
 ##### Threading Library

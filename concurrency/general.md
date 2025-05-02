@@ -142,7 +142,8 @@ Each core can run one thread at a time (however, with the hyper-threading techni
 - **Global Interpreter Lock** ensures that **only one thread executes Python bytecode at a time**
 ##### GIL's role in blocking threads
 - Because of its property, we prefer to use `threading` for I/O tasks, and Python will release GIL for those tasks to implement parallelism (context switch). For CPU-bound tasks, we should not use `threading` (multithreading) due to the limitation of GIL. Instead, we will use `multiprocessing` (explained later on) to allow each process to have its own GIL and not be blocked by others.
-- Multi-threads release GIL (not require execute Python bytecode - I/O task)
+
+- **Multi-threads release GIL (not require execute Python bytecode - I/O task)**
     ```
     import threading
     import time
@@ -167,6 +168,38 @@ Each core can run one thread at a time (however, with the hyper-threading techni
     ```
     - Total time is 2 seconds (GIL does not block any thread), not 4 seconds.
 
+- **Multi-threads sequentially execute (require GIL to execute Python bytecode - CPU-bound task)**
+    ```
+    import threading
+    import time
+
+    def cpu_heavy():
+        print(f"[{threading.current_thread().name}] Starting CPU task")
+        count = 0
+        for _ in range(50_000_000):  # Heavy CPU loop
+            count += 1
+        print(f"[{threading.current_thread().name}] Done")
+
+    start = time.time()
+
+    threads = [threading.Thread(target=cpu_heavy) for _ in range(1)]
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+
+    print("CPU-bound total time:", round(time.time() - start, 2), "seconds")
+
+    # PS C:\Users\alice\python-tutorials\concurrency> python gil.py
+    # [Thread-1 (cpu_heavy)] Starting CPU task
+    # [Thread-2 (cpu_heavy)] Starting CPU task
+    # [Thread-1 (cpu_heavy)] Done
+    # [Thread-2 (cpu_heavy)] Done
+    # CPU-bound total time: 2.05 seconds
+    # PS C:\Users\alice\python-tutorials\concurrency> python gil.py
+    # [Thread-1 (cpu_heavy)] Starting CPU task (1 task)
+    # [Thread-1 (cpu_heavy)] Done
+    # CPU-bound total time: 1.0 seconds
+
+    ```
 - Ref: https://scipy-cookbook.readthedocs.io/items/ParallelProgramming.html
 
 #### Multi-threading vs Multi-processing

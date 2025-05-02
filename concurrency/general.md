@@ -15,7 +15,7 @@ Each core can run one thread at a time (however, with the hyper-threading techni
           
       ![image](https://github.com/user-attachments/assets/f49e769d-d8e6-4287-8fc1-17a44255d165)
     
-    - Code: 
+    - Code: Initialize **2 different threads** in the **same process (pid)**. 
     ```
     import threading
     import os

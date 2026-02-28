@@ -203,52 +203,21 @@
 - **Safe encapsulation - mangling**: by defining `__update = update`, this makes `self.__update` become `self._Mapping__update`. Therefore, even if `update()` is overriden in a subclass, the parent class has no impact.
     ```
     class Mapping:
-        def __init__(self, iterable):
-            self.items_list = []
+        def __init__(self,iterable):
+            self.items = []
             self.__update(iterable)
-
-        def update(self, iterable):
-            for item in iterable:
-                self.items_list.append(item)
-
-        __update = update   # private copy of original update() method
-
-    class MappingSubclass(Mapping):
-
-        def update(self, keys, values):
-            # provides new signature for update()
-            # but does not break __init__()
-            for item in zip(keys, values):
-                self.items_list.append(item)
-
+        def update(self,iterable):
+            for i in iterable:
+                self.items.append(i)
         __update = update
-
-    newMapping = Mapping([1, 2, 3, 4])
-    newMappingSubclass = MappingSubclass([(1, 2), (3, 4)])
-    print (newMapping._Mapping__update)
-    print (newMappingSubclass._Mapping__update) # Inherit Mapping.update
-    print (newMappingSubclass._MappingSubclass__update)
-    # Output
-    # <bound method Mapping.update of <__main__.Mapping object at 0x000002D241F37350>>
-    # <bound method Mapping.update of <__main__.MappingSubclass object at 0x000002D241F373D0>>
-
-    newMapping._Mapping__update([5,6])
-    newMappingSubclass.update([5],[6])
-
-    print (newMapping.items_list)
-    print (newMappingSubclass.items_list)
-    # Output
-    # [1, 2, 3, 4, 5, 6]
-    # [(1, 2), (3, 4), (5, 6)]
-
-    print (newMapping.update)
-    print (newMappingSubclass.update)
-    # Output
-    # <bound method Mapping.update of <__main__.Mapping object at 0x00000226F83271D0>>
-    # <bound method MappingSubclass.update of <__main__.MappingSubclass object at 0x00000226F8327250>>
-
-    print (newMapping.__update)
-    # Fail, since `__update` is defined as a private method in <class Mapping>
+            
+    class CustomizedMapping(Mapping):
+        def update(self, keys: list, values: list):
+            for item in zip(keys, values):
+                self.items.append(item)
+            
+    custom_map = CustomizedMapping([1,2])
+    print (custom_map.items)
     ```
 
 #### Dataclasses (@dataclass)

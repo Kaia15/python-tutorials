@@ -220,7 +220,7 @@
     custom_map = CustomizedMapping([1,2])
     print (custom_map.items)
     ```
-    By assigning the private method `__update` to `update` method inside `Mapping` class, we successfully lock this attribute. Then even though we tried to override the same name attribute in `CustomizedMapping`, the output for `custom_map` still points to `update` method that's previously defined in `Mapping`.
+    By assigning the private method `__update` to `update` method inside `Mapping` class, we successfully lock this attribute and always points any defined `update` function bound to `_Mapping_update`. Then even though we tried to override the same name attribute in `CustomizedMapping`, the output for `custom_map` still points to `update` method that's previously defined in `Mapping`.
   - **No** Scenario: We do not lock by re-assigning the method starting within double underscore(s) `__`
       Example:
       ```

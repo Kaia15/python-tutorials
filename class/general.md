@@ -199,8 +199,9 @@
 - More refs: https://docs.python.org/3/reference/datamodel.html#object.__new__
 
 #### Are Private methods truly **Private**?
-- The answer is **No**, we still can access by calling `_className__nameOfPrivateMethod`
-- **Safe encapsulation - mangling**: by defining `__update = update`, this makes `self.__update` become `self._Mapping__update`. Therefore, even if `update()` is overriden in a subclass, the parent class has no impact.
+- The answer is **No** & **Yes**, we still can access by calling `_className__nameOfPrivateMethod`
+  - **Yes** Scenario: We lock this method to this class by using **mangling** technique.
+    Example:
     ```
     class Mapping:
         def __init__(self,iterable):
@@ -219,6 +220,34 @@
     custom_map = CustomizedMapping([1,2])
     print (custom_map.items)
     ```
+    By assigning the private method `__update` to `update` method inside `Mapping` class, we successfully lock this attribute. Then even though we tried to override the same name attribute in `CustomizedMapping`, the output for `custom_map` still points to `update` method that's previously defined in `Mapping`.
+  - **No** Scenario: We do not lock by re-assigning the method starting within double underscore(s) `__`
+      Example:
+      ```
+      class SimpleTensor:
+        def __init__(self, input_list, shape):
+            self.ts = []
+            self.ts_shape = shape
+            self._iterator = iter(input_list)  # create iterator once
+            self._build_tensor(shape)
+    
+        def _build_tensor(self, shape):
+            if len(shape) == 1:
+                ndim = shape[0]
+                for i in range(ndim):
+                    self.ts.append(next(self._iterator))  
+            else:
+                first_ndim = shape[0]
+                for i in range(first_ndim):
+                    self._build_tensor(shape[1:])
+    
+        def _get_shape(self):
+            return self.ts_shape
+    t = SimpleTensor([1, 2, 3, 4, 5, 6], (2, 3))
+    print(t.ts)       # [1, 2, 3, 4, 5, 6]
+    print(t.ts_shape) # (2, 3)
+      ```
+      In `SimpleTensor`, even we start with using single underscore, but at the end, when calling to the correct method, it still prints out the shape of tensor object we created.
 
 #### Dataclasses (@dataclass)
 ##### Constructor & Object Display

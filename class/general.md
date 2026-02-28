@@ -223,6 +223,8 @@
 
         __update = update
 
+    newMapping = Mapping([1, 2, 3, 4])
+    newMappingSubclass = MappingSubclass([(1, 2), (3, 4)])
     print (newMapping._Mapping__update)
     print (newMappingSubclass._Mapping__update) # Inherit Mapping.update
     print (newMappingSubclass._MappingSubclass__update)
